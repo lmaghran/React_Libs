@@ -1,73 +1,49 @@
-const productsData = [
+const todosData = [
     {
-        id: "1",
-        name: "Pencil",
-        price: 1,
-        description: "Perfect for those who can't remember things! 5/5 Highly recommend."
+        id: 1,
+        text: "Take out the trash",
+        completed: true
     },
     {
-        id: "2",
-        name: "Housing",
-        price: 0,
-        description: "Housing provided for out-of-state students or those who can't commute"
+        id: 2,
+        text: "Grocery shopping",
+        completed: false
     },
     {
-        id: "3",
-        name: "Computer Rental",
-        price: 300,
-        description: "Don't have a computer? No problem!"
+        id: 3,
+        text: "Clean gecko tank",
+        completed: false
     },
     {
-        id: "4",
-        name: "Coffee",
-        price: 2,
-        description: "Wake up!"
+        id: 4,
+        text: "Mow lawn",
+        completed: true
     },
     {
-        id: "5",
-        name: "Snacks",
-        price: 0,
-        description: "Free snacks!"
-    },
-    {
-        id: "6",
-        name: "Rubber Duckies",
-        price: 3.50,
-        description: "To help you solve your hardest coding problems."
-    },
-    {
-        id: "7",
-        name: "Fidget Spinner",
-        price: 21.99,
-        description: "Because we like to pretend we're in high school."
-    },
-    {
-        id: "8",
-        name: "Sticker Set",
-        price: 14.99,
-        description: "To prove to other devs you know a lot."
+        id: 5,
+        text: "Catch up on Arrested Development",
+        completed: false
     }
 ]
 
-function Product(props) {
+
+function TodoItem(props) {
     return (
-        <div>
-            <h2>{props.product.name}</h2>
-            <p>{props.product.price.toLocaleString("en-US", { style: "currency", currency: "USD" })} - {props.product.description}</p>
+        <div className="todo-item">
+            <input type="checkbox" checked={props.item.completed}/>
+            <p> {props.item.text} </p>
         </div>
     );
 }
 
 
-
 function MyApp() {
-    const productComponents= productsData.map(item => <Product product={item}/>);
+    const todoItems= todosData.map(item => <TodoItem item= {item} />)
     return (
-
-    <div>
-       {productComponents}
-    </div>
-
+        <div className="todo-list">
+        <h1> To Do List </h1>
+            {todoItems}
+        </div>
     )
 }
 
