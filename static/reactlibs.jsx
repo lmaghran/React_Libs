@@ -1,21 +1,42 @@
-function ToDoItem() {
+
+
+
+
+
+
+function ContactCard(props) {
     return (
-        <div className="todo-item">
-            <input type="checkbox" />
-            <p>Placeholder text here</p>
-        </div>
-    )
+        <div className="contact-card">
+                <img src={props.contact.imgUrl}/>
+                <h3>{props.contact.name}</h3>
+                <p>Phone: {props.contact.phone}</p>
+                <p>Email: {props.contact.email}</p>
+            </div>
+    );
 }
 
 
 function MainContent () {
     return(
-    <div>
-    <ToDoItem/>
-    <ToDoItem/>
-    <ToDoItem/>
+    <div className="contacts">
+                        <ContactCard 
+                contact={{name: "Mr. Whiskerson", imgUrl: "http://placekitten.com/300/200", phone: "(212) 555-1234", email: "mr.whiskaz@catnap.meow"}}
+            />
+            
+            <ContactCard 
+                contact={{name: "Fluffykins", imgUrl: "http://placekitten.com/400/200", phone: "(212) 555-2345", email: "fluff@me.com"}}
+            />
+            
+            <ContactCard
+                contact={{name: "Destroyer", imgUrl: "http://placekitten.com/400/300", phone: "(212) 555-3456", email: "ofworlds@yahoo.com"}}
+            />
+            
+            <ContactCard 
+                contact={{name: "Felix", imgUrl: "http://placekitten.com/200/100", phone: "(212) 555-4567", email: "thecat@hotmail.com"}}
+            />
+
     </div>
-    )
+    );
 }
 
 function Header () {
