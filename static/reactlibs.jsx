@@ -1,20 +1,20 @@
+function ToDoItem() {
+    return (
+        <div className="todo-item">
+            <input type="checkbox" />
+            <p>Placeholder text here</p>
+        </div>
+    )
+}
+
+
 function MainContent () {
     return(
-    <main>
-    <label>Check boxes</label>
-             <input type = "checkbox"
-                 id = "chkEggs"
-                 value = "greenEggs" />
-                 <label for = "chkEggs">
-                 Green Eggs
-                 </label>
-                 
-            <input type = "checkbox"
-                 id = "chkHam"
-                 value = "ham" />
-
-        <label for = "chkHam">Ham</label>
-    </main>
+    <div>
+    <ToDoItem/>
+    <ToDoItem/>
+    <ToDoItem/>
+    </div>
     )
 }
 
@@ -38,7 +38,7 @@ function Header () {
     timeOfDay = "night"
     styles.color = "#D90000"
   }
-  
+
     return(
     <div>
     <header className="navbar"> To Do List </header>
@@ -61,7 +61,7 @@ function Footer () {
 function MyApp() {
     return (
 
-    <div>
+    <div className="todo-list">
     <Header />
     <MainContent />
     <Footer />
