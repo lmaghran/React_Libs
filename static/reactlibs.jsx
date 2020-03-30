@@ -1,46 +1,81 @@
-// #1
-class App extends React.Component {
-    render(){
-    
+
+const todosData = [
+    {
+        id: 1,
+        text: "Take out the trash",
+        completed: true
+    },
+    {
+        id: 2,
+        text: "Grocery shopping",
+        completed: false
+    },
+    {
+        id: 3,
+        text: "Clean gecko tank",
+        completed: false
+    },
+    {
+        id: 4,
+        text: "Mow lawn",
+        completed: true
+    },
+    {
+        id: 5,
+        text: "Catch up on Arrested Development",
+        completed: false
+    }
+]
+
+
+
+function TodoItem(props) {
     return (
-        <div>
-            <Header />
-            <Greeting />
+        <div className="todo-item">
+            <input 
+                type="checkbox" 
+                checked={props.item.completed} 
+                onChange={() => props.handleChange(props.item.id)}
+            />
+            <p>{props.item.text}</p>
         </div>
     )
 }
-}
 
-// #2
-class Header extends React.Component {
-    
-    render () {
-    return (
-        <header>
-            <p>Welcome, {this.props.username}!</p>
-        </header>
-    )
-}
-}
 
-// #3
-class Greeting extends React.Component {
-render () {
-
-    const date = new Date()
-    const hours = date.getHours()
-    let timeOfDay
-    
-    if (hours < 12) {
-        timeOfDay = "morning"
-    } else if (hours >= 12 && hours < 17) {
-        timeOfDay = "afternoon"
-    } else {
-        timeOfDay = "night"
+class App extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            todos: todosData
+        }
+        this.handleChange = this.handleChange.bind(this)
     }
-    return (
-        <h1>Good {timeOfDay} to you, sir or madam!</h1>
-    )
+    
+    handleChange(id) {
+        this.setState(prevState => {
+            const updatedTodos = prevState.todos.map(todo => {
+                if (todo.id === id) {
+                    todo.completed = !todo.completed
+                }
+                return todo
+            })
+            return {
+                todos: updatedTodos
+            }
+        })
+    }
+    
+    render() {
+        const todoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange}/>)
+        
+        return (
+            <div className="todo-list">
+                {todoItems}
+            </div>
+        )    
+    }
 }
-}
+
+
 ReactDOM.render(<App />, document.getElementById("root"))
