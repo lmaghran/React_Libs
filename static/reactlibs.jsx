@@ -1,53 +1,46 @@
-const todosData = [
-    {
-        id: 1,
-        text: "Take out the trash",
-        completed: true
-    },
-    {
-        id: 2,
-        text: "Grocery shopping",
-        completed: false
-    },
-    {
-        id: 3,
-        text: "Clean gecko tank",
-        completed: false
-    },
-    {
-        id: 4,
-        text: "Mow lawn",
-        completed: true
-    },
-    {
-        id: 5,
-        text: "Catch up on Arrested Development",
-        completed: false
-    }
-]
-
-
-function TodoItem(props) {
+// #1
+class App extends React.Component {
+    render(){
+    
     return (
-        <div className="todo-item">
-            <input type="checkbox" checked={props.item.completed}/>
-            <p> {props.item.text} </p>
-        </div>
-    );
-}
-
-
-function MyApp() {
-    const todoItems= todosData.map(item => <TodoItem item= {item} />)
-    return (
-        <div className="todo-list">
-        <h1> To Do List </h1>
-            {todoItems}
+        <div>
+            <Header />
+            <Greeting />
         </div>
     )
 }
+}
 
-ReactDOM.render(
-  <MyApp />,
-  document.getElementById('root')
-);
+// #2
+class Header extends React.Component {
+    
+    render () {
+    return (
+        <header>
+            <p>Welcome, {this.props.username}!</p>
+        </header>
+    )
+}
+}
+
+// #3
+class Greeting extends React.Component {
+render () {
+
+    const date = new Date()
+    const hours = date.getHours()
+    let timeOfDay
+    
+    if (hours < 12) {
+        timeOfDay = "morning"
+    } else if (hours >= 12 && hours < 17) {
+        timeOfDay = "afternoon"
+    } else {
+        timeOfDay = "night"
+    }
+    return (
+        <h1>Good {timeOfDay} to you, sir or madam!</h1>
+    )
+}
+}
+ReactDOM.render(<App />, document.getElementById("root"))
