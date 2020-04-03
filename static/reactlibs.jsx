@@ -1,89 +1,93 @@
-
-const todosData = [
-    {
-        id: 1,
-        text: "Take out the trash",
-        completed: true
-    },
-    {
-        id: 2,
-        text: "Grocery shopping",
-        completed: false
-    },
-    {
-        id: 3,
-        text: "Clean gecko tank",
-        completed: false
-    },
-    {
-        id: 4,
-        text: "Mow lawn",
-        completed: true
-    },
-    {
-        id: 5,
-        text: "Catch up on Arrested Development",
-        completed: false
-    }
-]
-
-
-
-function TodoItem(props) {
-    const completedStyle={
-        fontStyle: "italic",
-        color: "#cdcdcd",
-        textDecoration: "line-through"
-    }
+function Header() {
     return (
-        <div className="todo-item">
-            <input 
-                type="checkbox" 
-                checked={props.item.completed} 
-                onChange={() => props.handleChange(props.item.id)}
-            />
-            <p style={props.item.completed ? completedStyle: null} >{props.item.text}</p>
-        </div>
+        <header>
+                <img src="http://www.pngall.com/wp-content/uploads/2016/05/Trollface.png" />
+                <p>
+                Any Novel Madlibs
+                </p>
+            </header>
     )
 }
 
-
-class App extends React.Component {
+class MemeGenerator extends React.Component {
     constructor() {
         super()
         this.state = {
-            todos: todosData
+            topText: "",
+            bottomText: "",
+            randomImg: "http://i.imgflip.com/1bij.jpg",
+            allMemeImgs: []
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
     
-    handleChange(id) {
-        this.setState(prevState => {
-            const updatedTodos = prevState.todos.map(todo => {
-                if (todo.id === id) {
-                    return {
-                        ...todo,
-                        completed: !todo.completed
-                    }
-                }
-                return todo
+    componentDidMount() {
+        fetch("https://api.imgflip.com/get_memes")
+            .then(response => response.json())
+            .then(response => {
+                const {memes} = response.data
+                this.setState({ allMemeImgs: memes })
             })
-            return {
-                todos: updatedTodos
-            }
-        })
+    }
+    
+    handleChange(event) {
+        const {name, value} = event.target
+        this.setState({ [name]: value })
+    }
+    
+    /**
+     * Create a method that, when the "Gen" button is clicked, chooses one of the
+     * memes from our `allMemeImgs` array at random and makes it so that is the
+     * meme image that shows up in the bottom portion of our meme generator site (`.url`)
+     */
+    
+    handleSubmit(event) {
+        event.preventDefault()
+        const randNum = Math.floor(Math.random() * this.state.allMemeImgs.length)
+        const randMemeImg = this.state.allMemeImgs[randNum].url
+        this.setState({ randomImg: randMemeImg })
     }
     
     render() {
-        const todoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange}/>)
-        
         return (
-            <div className="todo-list">
-                {todoItems}
+            <div>
+                <form className="meme-form" onSubmit={this.handleSubmit}>
+                    <input 
+                        type="text"
+                        name="topText"
+                        placeholder="Top Text"
+                        value={this.state.topText}
+                        onChange={this.handleChange}
+                    /> 
+                    <input 
+                        type="text"
+                        name="bottomText"
+                        placeholder="Bottom Text"
+                        value={this.state.bottomText}
+                        onChange={this.handleChange}
+                    /> 
+                
+                    <button>Gen</button>
+                </form>
+                <div className="meme">
+                    <img src={this.state.randomImg} alt="" />
+                    <h2 className="top">{this.state.topText}</h2>
+                    <h2 className="bottom">{this.state.bottomText}</h2>
+                </div>
             </div>
-        )    
+        )
     }
 }
 
+
+function App() {
+    return (
+        <div>
+        <Header />
+        <MemeGenerator />
+        </div>
+    )
+}
 
 ReactDOM.render(<App />, document.getElementById("root"))
