@@ -23,11 +23,16 @@ def index():
     book_list.pop(0)
 
     for li in book_list[:99]:
-        print(li)
+        book_title_auth= li.text.split("by", 1)
+        book_title= book_title_auth[0]
+        if len(book_title_auth)>1:
+            book_auth= book_title_auth[1][:-7]
+        else:
+            book_auth= "No author"
         book_url=li.findAll('a')[0]['href']
-        book_dict[li.text[:-7]] = book_url
+        book_dict[book_title] = {"url":book_url, "author":book_auth}
 
-    return render_template('reactlibs.html')
+    return render_template('reactlibs.html', book_dict= book_dict)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
