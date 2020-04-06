@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, json
 import time
 import requests
 from bs4 import BeautifulSoup as bs
@@ -31,6 +31,7 @@ def index():
             book_auth= "No author"
         book_url=li.findAll('a')[0]['href']
         book_dict[book_title] = {"url":book_url, "author":book_auth}
+    book_dict= json.dumps(book_dict)
 
     return render_template('reactlibs.html', book_dict= book_dict)
 
