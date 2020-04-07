@@ -1,93 +1,26 @@
-function Header() {
-    return (
-        <header>
-                <img src="http://www.pngall.com/wp-content/uploads/2016/05/Trollface.png" />
-                <p>
-                Any Novel Madlibs
-                </p>
-            </header>
-    )
-}
-
-class MemeGenerator extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            topText: "",
-            bottomText: "",
-            randomImg: "http://i.imgflip.com/1bij.jpg",
-            allMemeImgs: []
-        }
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
-    
-    componentDidMount() {
-        fetch("https://api.imgflip.com/get_memes")
-            .then(response => response.json())
-            .then(response => {
-                const {memes} = response.data
-                this.setState({ allMemeImgs: memes })
-            })
-    }
-    
-    handleChange(event) {
-        const {name, value} = event.target
-        this.setState({ [name]: value })
-    }
-    
-    /**
-     * Create a method that, when the "Gen" button is clicked, chooses one of the
-     * memes from our `allMemeImgs` array at random and makes it so that is the
-     * meme image that shows up in the bottom portion of our meme generator site (`.url`)
-     */
-    
-    handleSubmit(event) {
-        event.preventDefault()
-        const randNum = Math.floor(Math.random() * this.state.allMemeImgs.length)
-        const randMemeImg = this.state.allMemeImgs[randNum].url
-        this.setState({ randomImg: randMemeImg })
-    }
-    
-    render() {
-        return (
-            <div>
-                <form className="meme-form" onSubmit={this.handleSubmit}>
-                    <input 
-                        type="text"
-                        name="topText"
-                        placeholder="Top Text"
-                        value={this.state.topText}
-                        onChange={this.handleChange}
-                    /> 
-                    <input 
-                        type="text"
-                        name="bottomText"
-                        placeholder="Bottom Text"
-                        value={this.state.bottomText}
-                        onChange={this.handleChange}
-                    /> 
-                
-                    <button>Gen</button>
-                </form>
-                <div className="meme">
-                    <img src={this.state.randomImg} alt="" />
-                    <h2 className="top">{this.state.topText}</h2>
-                    <h2 className="bottom">{this.state.bottomText}</h2>
-                </div>
-            </div>
-        )
-    }
-}
+const bookArray = [{"author": " Lyster H. Dewey and Jason L. Merrill ", "title": "Hemp Hurds as Paper-Making Material ", "url": "/ebooks/17855"}, {"author": " Daniel Defoe ", "title": "A Journal of the Plague Year ", "url": "/ebooks/376"}, {"author": " Mary Wollstonecraft Shelley ", "title": "Frankenstein; Or, The Modern Prometheus ", "url": "/ebooks/84"}, {"author": " Lewis Carroll ", "title": "Alice's Adventures in Wonderland ", "url": "/ebooks/11"}, {"author": " Oscar Wilde ", "title": "The Importance of Being Earnest: A Trivial Comedy for Serious People ", "url": "/ebooks/844"}, {"author": " Jonathan Swift ", "title": "A Modest Proposal ", "url": "/ebooks/1080"}, {"author": " Plato ", "title": "Ion ", "url": "/ebooks/1635"}, {"author": " Henrik Ibsen ", "title": "Et dukkehjem. English ", "url": "/ebooks/2542"}, {"author": " Robert Louis Stevenson ", "title": "The Strange Case of Dr. Jekyll and Mr. Hyde ", "url": "/ebooks/43"}, {"author": " Edgar Allan Poe ", "title": "The Masque of the Red Death ", "url": "/ebooks/1064"}, {"author": " Charles Dickens ", "title": "A Tale of Two Cities ", "url": "/ebooks/98"}, {"author": " Edgar Allan Poe ", "title": "The Works of Edgar Allan Poe, The Raven Edition ", "url": "/ebooks/25525"}, {"author": " Jack London ", "title": "The Call of the Wild ", "url": "/ebooks/215"}, {"author": " Louisa May Alcott ", "title": "Little Women ", "url": "/ebooks/514"}, {"author": " Arthur Conan Doyle ", "title": "The Adventures of Sherlock Holmes ", "url": "/ebooks/1661"}, {"author": " Dick; Or, The Whale by Herman Melville ", "title": "Mo", "url": "/ebooks/2701"}, {"author": " Charlotte Perkins Gilman ", "title": "The Yellow Wallpaper ", "url": "/ebooks/1952"}, {"author": " Giovanni Boccaccio ", "title": "The Decameron of Giovanni Boccaccio ", "url": "/ebooks/23700"}, {"author": " Robert Louis Stevenson ", "title": "Treasure Island ", "url": "/ebooks/120"}, {"author": " Jane Austen ", "title": "Emma ", "url": "/ebooks/158"}, {"author": " Mark Twain ", "title": "Adventures of Huckleberry Finn ", "url": "/ebooks/76"}, {"author": " Jacob Grimm and Wilhelm Grimm ", "title": "Grimms' Fairy Tales ", "url": "/ebooks/2591"}, {"author": " Charles Dickens ", "title": "A Christmas Carol in Prose; Being a Ghost Story of Christmas ", "url": "/ebooks/46"}]
 
 
-function App() {
+function Book(props){
     return (
         <div>
-        <Header />
-        <MemeGenerator />
+            <h2>{props.book.title}</h2>
+            <p> {props.book.author} </p>
         </div>
     )
 }
+
+function App(){
+    const bookComponents= bookArray.map(item => <Book book = {item}/>)
+
+    return(
+        <div>
+            {bookComponents}
+        </div>
+    )
+
+}
+
+
 
 ReactDOM.render(<App />, document.getElementById("root"))

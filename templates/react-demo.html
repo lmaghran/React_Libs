@@ -10,17 +10,6 @@
     <div id="root"></div>
     <div id = "book_list"></div>
 
-{% block javascript %}
-    <script>
-  // load the objects like you would with a normal jinja template i.e. {{ object }}, but add | tojson
-  // pass it into the parse function
-    labels = JSON.parse({{ book_dict | tojson }})
-    books = Object.keys(labels)
-    console.log(books)
-    $('#book_list').append(String(books));
-    </script>
-{% endblock %}
-
   </main>
 
   {% block end_body %}

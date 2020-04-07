@@ -10,12 +10,20 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """Display homepage."""
+
+    return render_template('reactlibs.html')
+
+
+@app.route('/api/booklist')
+def booklist_api():
+    """API for Booklist"""
+
     text = requests.get("https://www.gutenberg.org/browse/scores/top#books-last7")
     soup= bs(text.content, 'html.parser')
     last_30 = soup.find(id = "books-last30")
     siblings = list(last_30.findNextSiblings())
     book_list= []
-    book_dict={}
+    book_array=[]
     for ul in siblings:
         for li in ul.findAll('li'):
             book_list.append(li)
@@ -23,6 +31,7 @@ def index():
     book_list.pop(0)
 
     for li in book_list[:99]:
+        book_dict={}
         book_title_auth= li.text.split("by", 1)
         book_title= book_title_auth[0]
         if len(book_title_auth)>1:
@@ -30,10 +39,12 @@ def index():
         else:
             book_auth= "No author"
         book_url=li.findAll('a')[0]['href']
-        book_dict[book_title] = {"url":book_url, "author":book_auth}
-    book_dict= json.dumps(book_dict)
+        book_dict = {"title": book_title, "url":book_url, "author":book_auth}
+    
+        book_array.append(book_dict)
+    book_array= json.dumps(book_array)
 
-    return render_template('reactlibs.html', book_dict= book_dict)
+    return book_array
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
